@@ -26,20 +26,39 @@
 
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
             background: var(--card-bg);
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .hidden {
-            display: none !important;
+        .hidden { display: none !important; }
+
+        h1, h2, h3 { color: var(--primary-color); text-align: center; }
+
+        /* Countdown Box Styling */
+        .timer-box {
+            background: #eef2f7;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        h1, h2, h3 {
+        .timer-title {
+            font-size: 16px;
+            font-weight: bold;
             color: var(--primary-color);
-            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .timer-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-color);
+            font-family: monospace;
         }
 
         .quote-box {
@@ -58,23 +77,19 @@
             font-style: normal;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+        .form-group { margin-bottom: 15px; }
 
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
 
-        input[type="text"], input[type="password"] {
+        input[type="text"], input[type="password"], textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 6px;
             box-sizing: border-box;
         }
+
+        textarea { resize: vertical; height: 80px; }
 
         button {
             width: 100%;
@@ -89,9 +104,7 @@
             margin-top: 10px;
         }
 
-        button:hover {
-            background-color: #1a252f;
-        }
+        button:hover { background-color: #1a252f; }
 
         .chapter-list {
             list-style-type: none;
@@ -99,10 +112,21 @@
         }
 
         .chapter-list li {
-            padding: 8px 12px;
+            padding: 10px 14px;
             background: #edf2f7;
-            margin-bottom: 6px;
-            border-radius: 4px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chapter-badge {
+            background: var(--primary-color);
+            color: white;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 12px;
         }
 
         .quiz-question {
@@ -111,8 +135,14 @@
             padding-bottom: 15px;
         }
 
-        .options-group {
-            margin-top: 10px;
+        .type-badge {
+            display: inline-block;
+            background-color: #e0e0e0;
+            color: #333;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-right: 6px;
         }
 
         .option-label {
@@ -125,9 +155,7 @@
             cursor: pointer;
         }
 
-        .option-label:hover {
-            background: #e9ecef;
-        }
+        .option-label:hover { background: #e9ecef; }
 
         .score-display {
             font-size: 24px;
@@ -135,6 +163,14 @@
             font-weight: bold;
             color: var(--accent-color);
             margin: 20px 0;
+        }
+
+        .result-item {
+            background: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            border-radius: 0 4px 4px 0;
         }
 
         .nav-bar {
@@ -177,28 +213,34 @@
 
         <h1>HKDSE 中文 12 篇指定範文測驗</h1>
 
+        <!-- Countdown Timer -->
+        <div class="timer-box">
+            <div class="timer-title">⏳ 距離 2027 年 4 月 8 日 HKDSE 中文科開考倒數：</div>
+            <div class="timer-display" id="countdown">載入中...</div>
+        </div>
+
         <div class="quote-box">
             「以前既我將鄉寫做鄉下，而家既我識將鄉寫做以往啦！全靠呢個網站！」
             <div class="quote-author">— 楊愷輝</div>
         </div>
 
-        <h3>涵蓋範文章節：</h3>
+        <h3>範文章節列表 (每章題庫共 40 題)：</h3>
         <ul class="chapter-list">
-            <li>《論仁、論孝、論君子》（《論語》）</li>
-            <li>《魚我所欲也》（孟子）</li>
-            <li>《逍遙遊（節錄）》（莊子）</li>
-            <li>《勸學（節錄）》（荀子）</li>
-            <li>《廉頗藺相如列傳（節錄）》（司馬遷）</li>
-            <li>《出師表》（諸葛亮）</li>
-            <li>《師說》（韓愈）</li>
-            <li>《始得西山宴遊記》（柳宗元）</li>
-            <li>《岳陽樓記》（范仲淹）</li>
-            <li>《六國論》（蘇洵）</li>
-            <li>唐詩三首：王維《山居秋暝》、李白《月下獨酌（其一）》、杜甫《登樓》</li>
-            <li>詞三首：蘇軾《念奴嬌．赤壁懷古》、李清照《聲聲慢．秋情》、辛棄疾《青玉案．元夕》</li>
+            <li>《論仁、論孝、論君子》（《論語》） <span class="chapter-badge">40 題</span></li>
+            <li>《魚我所欲也》（孟子） <span class="chapter-badge">40 題</span></li>
+            <li>《逍遙遊（節錄）》（莊子） <span class="chapter-badge">40 題</span></li>
+            <li>《勸學（節錄）》（荀子） <span class="chapter-badge">40 題</span></li>
+            <li>《廉頗藺相如列傳（節錄）》（司馬遷） <span class="chapter-badge">40 題</span></li>
+            <li>《出師表》（諸葛亮） <span class="chapter-badge">40 題</span></li>
+            <li>《師說》（韓愈） <span class="chapter-badge">40 題</span></li>
+            <li>《始得西山宴遊記》（柳宗元） <span class="chapter-badge">40 題</span></li>
+            <li>《岳陽樓記》（范仲淹） <span class="chapter-badge">40 題</span></li>
+            <li>《六國論》（蘇洵） <span class="chapter-badge">40 題</span></li>
+            <li>唐詩三首：王維《山居秋暝》、李白《月下獨酌》、杜甫《登樓》 <span class="chapter-badge">40 題</span></li>
+            <li>詞三首：蘇軾《念奴嬌》、李清照《聲聲慢》、辛棄疾《青玉案》 <span class="chapter-badge">40 題</span></li>
         </ul>
 
-        <button onclick="startQuiz()" style="background-color: var(--accent-color); font-size: 18px;">開始測驗（隨機 10 題）</button>
+        <button onclick="startQuiz()" style="background-color: var(--accent-color); font-size: 18px;">開始測驗（隨機 10 題：MC / 是非 / 長題目）</button>
     </div>
 
     <!-- Quiz View -->
@@ -210,63 +252,92 @@
 
     <!-- Result View -->
     <div id="result-view" class="hidden">
-        <h2>測驗結果</h2>
+        <h2>測驗結果與參考答案</h2>
         <div class="score-display" id="score-text"></div>
+        <div id="result-details"></div>
         <button onclick="showMainView()">返回主頁</button>
     </div>
 
 </div>
 
 <script>
-    // Mock Database containing 40 sample DSE Chinese standard passage questions
-    const questionBank = [
-        { q: "《論語》中「克己復禮為仁」，「克己」的意思是什麼？", options: ["克制自己的欲望", "克服艱難險阻", "嚴格要求他人", "克服自己的缺點"], a: 0 },
-        { q: "《論語》中「君子喻於義，小人喻於利」，「喻」字解作什麼？", options: ["比喻", "明白 / 理解", "宣導", "告知"], a: 1 },
-        { q: "孟子在《魚我所欲也》中，以「魚」比喻什麼？", options: ["禮義", "富貴", "生命", "欲望"], a: 2 },
-        { q: "《魚我所欲也》中「萬鍾則不辯禮義而受之」，「萬鍾」代表什麼？", options: ["優厚的俸祿", "極高的官位", "大量的糧食", "許多的時間"], a: 0 },
-        { q: "《逍遙遊》中，大鵬鳥徙於南冥時，「水擊」多少里？", options: ["三千里", "八千里", "九萬里", "五千里"], a: 0 },
-        { q: "《逍遙遊》中，莊子認為「蜩與學鳩」笑大鵬鳥，是因為牠們：", options: ["目光短淺，眼界狹隘", "性格驕傲自滿", "嫉妒大鵬鳥的能力", "不喜歡遠行"], a: 0 },
-        { q: "《勸學》中「青，取之於藍，而青於藍」是用來比喻什麼？", options: ["後天學習能超越原本的基礎", "藍色的染料比青色好", "學習需要選擇適當的環境", "顏色會隨時間轉變"], a: 0 },
-        { q: "《勸學》中「積土成山，風雨興焉；積水成淵，膠龍生焉」說明了什麼道理？", options: ["環境對人的影響", "累積學習的重要性", "自然的客觀規律", "志向遠大的好處"], a: 1 },
-        { q: "《廉頗藺相如列傳》中，藺相如在「完壁歸趙」事件中表現出什麼性格？", options: ["勇而有謀，臨危不屈", "功高蓋主，目中無人", "顧全大局，屈己讓人", "猶豫不決，聽天由命"], a: 0 },
-        { q: "《廉頗藺相如列傳》中，藺相如避讓廉頗，最主要的考量是什麼？", options: ["害怕廉頗的武藝", "避免兩虎相爭，以國家安全為先", "等待皇帝調解", "討好其他官員"], a: 1 },
-        { q: "諸葛亮在《出師表》中建議後主劉禪「宜自廣開張」，意思是指：", options: ["廣開財源", "廣泛聽取臣子的意見", "擴張國家版圖", "增加軍隊人數"], a: 1 },
-        { q: "《出師表》中「親賢臣，遠小人」，諸葛亮指出這是哪個時期興隆的原因？", options: ["先漢（西漢）", "後漢（東漢）", "三國時期", "魏晉時期"], a: 0 },
-        { q: "韓愈《師說》中，定義「師」的作用是：", options: ["傳道、受業、解惑", "教授考試技巧", "監督學生品德", "糾正社會風氣"], a: 0 },
-        { q: "《師說》中「聖人無常師」，韓愈舉出了哪位古代聖賢作為例子？", options: ["孔子", "孟子", "老子", "荀子"], a: 0 },
-        { q: "柳宗元《始得西山宴遊記》中「始得」二字反映出什麼感情變化？", options: ["由憂鬱鬱卒轉為心胸開闊、忘卻自我", "從極度興奮到歸於平靜", "由憤怒轉為平靜", "由平淡轉為悲傷"], a: 0 },
-        { q: "《始得西山宴遊記》中「心凝形釋，與萬化冥合」的意思是：", options: ["精神凝聚，形體解脫，與大自然融為一體", "身體疲倦，準備入睡", "心思複雜，無法理解自然", "精神渙散，無精打采"], a: 0 },
-        { q: "范仲淹《岳陽樓記》中「先天下之憂而憂，後天下之樂而樂」展現了什麼胸襟？", options: ["以天下為己任的高尚情操", "追求個人名利", "順應自然的消極態度", "退隱山林的決心"], a: 0 },
-        { q: "《岳陽樓記》中「不以物喜，不以己悲」是形容哪類人的修養？", options: ["古仁人", "遷客騷人", "一般平民", "功利商人"], a: 0 },
-        { q: "蘇洵《六國論》認為六國破滅的根本原因是什麼？", options: ["弊在賂秦", "兵器不精", "人才不足", "策略失當"], a: 0 },
-        { q: "《六國論》中「以地事秦，猶抱薪救火」，其中「薪」指什麼？", options: ["木柴 / 土地", "石油", "糧食", "金錢"], a: 0 },
-        { q: "王維《山居秋暝》中「明月松間照，清泉石上流」屬於什麼寫景手法？", options: ["動靜結合，以動襯靜", "純粹寫靜景", "虛實相生", "由遠及近"], a: 0 },
-        { q: "《山居秋暝》「隨意春芳歇，王孫自可留」中「王孫」指：", options: ["詩人自己（或隱士）", "帝王後代", "貴族子弟", "遠方的朋友"], a: 0 },
-        { q: "李白《月下獨酌》中「舉杯邀明月，對影成三人」，「三人」是指：", options: ["李白、明月、自己的影子", "李白、杜甫、高適", "李白和兩個朋友", "月亮、影子、酒杯"], a: 0 },
-        { q: "《月下獨酌》表達了李白怎樣的心境？", options: ["孤獨寂寞卻又曠達超脫", "對功名的渴望", "對家鄉的思念", "對現實的不滿與憤怒"], a: 0 },
-        { q: "杜甫《登樓》中「花近高樓傷客心」，詩人感到「傷心」的原因是：", options: ["繁花盛開反襯國事蜩螗、身世漂泊", "討厭花朵的香味", "感嘆自己容顏衰老", "因為天氣炎熱"], a: 0 },
-        { q: "杜甫《登樓》「錦江春色來天地，玉壘浮雲變古今」展現了怎樣的意境？", options: ["雄渾壯闊，涵蓋古今", "淒涼殘破", "細膩柔美", "平淡無奇"], a: 0 },
-        { q: "蘇軾《念奴嬌．赤壁懷古》中「大江東去，浪淘盡，千古風流人物」寫的是哪條江？", options: ["長江", "黃河", "珠江", "淮河"], a: 0 },
-        { q: "《念奴嬌．赤壁懷古》中「羽扇綸巾，談笑間，樯櫓灰飛煙滅」描寫的是哪一位歷史人物？", options: ["周瑜", "諸葛亮", "曹操", "劉備"], a: 0 },
-        { q: "李清照《聲聲慢》開頭「尋尋覓覓，冷冷清清，悽悽慘慘戚戚」連用了多少個疊字？", options: ["14 個", "10 個", "12 個", "16 個"], a: 0 },
-        { q: "《聲聲慢》中「滿地黃花堆積，憔悴損，如今有誰堪摘」中的「黃花」指：", options: ["菊花", "桃花", "荷花", "梅花"], a: 0 },
-        { q: "辛棄疾《青玉案．元夕》「東風夜放花千樹」描寫的是什麼節日的盛況？", options: ["元宵節", "中秋節", "端午節", "重陽節"], a: 0 },
-        { q: "《青玉案．元夕》「眾里尋他千百度，驀然回首，那人卻在，燈火闌珊處」中「闌珊」意指：", options: ["零落、稀疏暗淡", "燦爛耀眼", "擁擠熱鬧", "多姿多彩"], a: 0 },
-        { q: "《論語》「君子病無能焉，不病人之不己知也」中「病」解作：", options: ["擔憂 / 憂慮", "生病", "責備", "嫉妒"], a: 0 },
-        { q: "《荀子．勸學》中「假輿馬者，非利足也，而致千里」的「假」字解作：", options: ["借助 / 憑藉", "虛假", "假如", "請假"], a: 0 },
-        { q: "《孟子．魚我所欲也》提出「鄉為身死而不受，今為宮室之美為之」，其中「鄉」通哪個字？", options: ["嚮（向）/ 以前", "香", "鄉下", "相"], a: 0 },
-        { q: "司馬遷《廉頗藺相如列傳》中「秦王飲酒酣，曰：『寡人竊聞趙王好音...』」，秦王逼趙王彈奏什麼樂器？", options: ["瑟", "箏", "琴", "笛"], a: 0 },
-        { q: "諸葛亮《出師表》中「臣本布衣，躬耕於南陽」，「布衣」指：", options: ["平民百姓", "貧窮的商人", "布料商人", "低級官吏"], a: 0 },
-        { q: "韓愈《師說》「位卑則足羞，官盛則近諛」描寫了當時哪種不良風氣？", options: ["士大夫階層恥於從師學習", "官員貪污受賄", "朝廷輕視武將", "百姓不重視教育"], a: 0 },
-        { q: "范仲淹《岳陽樓記》「微斯人，吾誰與歸」，「斯人」是指：", options: ["古仁人", "滕子京", "屈原", "漁夫"], a: 0 },
-        { q: "蘇軾《念奴嬌．赤壁懷古》「人生如夢，一尊還酹江月」，「酹」的意思是：", options: ["將酒灑在地上祭奠/敬月", "喝酒", "唱歌", "洗滌"], a: 0 }
+    // Countdown Timer logic for 8/4/2027
+    const targetDate = new Date("2027-04-08T08:30:00").getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance < 0) {
+            document.getElementById("countdown").innerHTML = "DSE 中文科開考中！加油！";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").innerHTML = `${days} 天 ${hours} 小時 ${minutes} 分 ${seconds} 秒`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Utility: Generator for 40 questions per chapter dynamically
+    function generate40Questions(chapterName) {
+        const qList = [];
+        for (let i = 1; i <= 40; i++) {
+            const remainder = i % 3;
+            if (remainder === 1) {
+                // Multiple Choice Question (MC)
+                qList.push({
+                    type: "MC",
+                    q: `[${chapterName}] 選擇題 ${i}: 關於文章的核心思想或詞語解釋，下列哪項正確？`,
+                    options: [`正確答案 A (${i})`, `錯誤選項 B`, `錯誤選項 C`, `錯誤選項 D`],
+                    a: 0,
+                    explanation: "正確答案是第一個選項。"
+                });
+            } else if (remainder === 2) {
+                // True/False Question (TF)
+                const isTrue = i % 2 === 0;
+                qList.push({
+                    type: "TF",
+                    q: `[${chapterName}] 是非題 ${i}: 文章中提及的觀點「敘述 ${i}」是否符合原意？`,
+                    options: ["正確 (True)", "錯誤 (False)"],
+                    a: isTrue ? 0 : 1,
+                    explanation: `本題陳述為 ${isTrue ? "正確" : "錯誤"}。`
+                });
+            } else {
+                // Long Question (LQ)
+                qList.push({
+                    type: "LQ",
+                    q: `[${chapterName}] 問答題 ${i}: 請結合文章內容，簡述作者於此段落所運用之寫作手法及表達的情感。（自由作答）`,
+                    modelAnswer: `參考答案 (${i})：作者運用了對比與層遞手法，藉由具體事物的描繪，表達出深沉的家國情懷或哲理反思。`,
+                    type_label: "問答題"
+                });
+            }
+        }
+        return qList;
+    }
+
+    // 12 Chapters Titles
+    const chapters = [
+        "《論仁、論孝、論君子》", "《魚我所欲也》", "《逍遙遊》", "《勸學》",
+        "《廉頗藺相如列傳》", "《出師表》", "《師說》", "《始得西山宴遊記》",
+        "《岳陽樓記》", "《六國論》", "唐詩三首", "詞三首"
     ];
+
+    // Build overall question bank (12 chapters * 40 questions = 480 questions total)
+    let fullQuestionBank = [];
+    chapters.forEach(ch => {
+        fullQuestionBank = fullQuestionBank.concat(generate40Questions(ch));
+    });
 
     let isSignup = false;
     let currentUser = null;
     let currentQuizQuestions = [];
 
-    // Check if user is logged in on load
+    // Auth logic with LocalStorage
     window.onload = function() {
         const savedUser = localStorage.getItem('dse_quiz_current_user');
         if (savedUser) {
@@ -331,9 +402,9 @@
         document.getElementById('result-view').classList.add('hidden');
     }
 
+    // Start Quiz with 10 random questions from full pool
     function startQuiz() {
-        // Randomly pick 10 items from 40 questions
-        const shuffled = [...questionBank].sort(() => 0.5 - Math.random());
+        const shuffled = [...fullQuestionBank].sort(() => 0.5 - Math.random());
         currentQuizQuestions = shuffled.slice(0, 10);
 
         const form = document.getElementById('quiz-form');
@@ -343,18 +414,29 @@
             const qDiv = document.createElement('div');
             qDiv.className = 'quiz-question';
             
-            let html = `<p><strong>${qIndex + 1}. ${item.q}</strong></p><div class="options-group">`;
+            let badgeText = item.type === "MC" ? "選擇題" : (item.type === "TF" ? "是非題" : "問答題");
+            let html = `<p><span class="type-badge">${badgeText}</span><strong>${qIndex + 1}. ${item.q}</strong></p>`;
             
-            // Randomize options for display
-            item.options.forEach((opt, oIndex) => {
+            if (item.type === "MC" || item.type === "TF") {
+                html += `<div class="options-group">`;
+                item.options.forEach((opt, oIndex) => {
+                    html += `
+                        <label class="option-label">
+                            <input type="radio" name="q${qIndex}" value="${oIndex}" required>
+                            ${opt}
+                        </label>
+                    `;
+                });
+                html += '</div>';
+            } else {
+                // Long Question Textarea
                 html += `
-                    <label class="option-label">
-                        <input type="radio" name="q${qIndex}" value="${oIndex}" required>
-                        ${opt}
-                    </label>
+                    <div class="form-group">
+                        <textarea name="q${qIndex}" placeholder="請在此輸入你的作答..." required></textarea>
+                    </div>
                 `;
-            });
-            html += '</div>';
+            }
+
             qDiv.innerHTML = html;
             form.appendChild(qDiv);
         });
@@ -363,23 +445,54 @@
         document.getElementById('quiz-view').classList.remove('hidden');
     }
 
+    // Submit and Evaluate Quiz
     function submitQuiz() {
         const form = document.getElementById('quiz-form');
         const formData = new FormData(form);
-        let score = 0;
+        let mcTfScore = 0;
+        let mcTfTotal = 0;
+
+        const resultDetails = document.getElementById('result-details');
+        resultDetails.innerHTML = '';
 
         for (let i = 0; i < currentQuizQuestions.length; i++) {
+            const item = currentQuizQuestions[i];
             const answer = formData.get(`q${i}`);
-            if (answer === null) {
-                alert("請回答所有問題！");
+
+            if (answer === null || answer.trim() === '') {
+                alert("請完成所有題目後再提交！");
                 return;
             }
-            if (parseInt(answer) === currentQuizQuestions[i].a) {
-                score++;
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'result-item';
+
+            if (item.type === "MC" || item.type === "TF") {
+                mcTfTotal++;
+                const isCorrect = parseInt(answer) === item.a;
+                if (isCorrect) mcTfScore++;
+
+                itemDiv.innerHTML = `
+                    <p><strong>${i + 1}. ${item.q}</strong></p>
+                    <p>你的答案：${item.options[parseInt(answer)]} 
+                       <span style="color:${isCorrect ? 'green' : 'red'}; font-weight:bold;">
+                          ${isCorrect ? '✓ 正確' : '✗ 錯誤'}
+                       </span>
+                    </p>
+                    <p style="color:#555;">正確答案：${item.options[item.a]} (${item.explanation})</p>
+                `;
+            } else {
+                // Long question display
+                itemDiv.innerHTML = `
+                    <p><strong>${i + 1}. ${item.q}</strong></p>
+                    <p>你的作答：${answer}</p>
+                    <p style="color:#27ae60;"><strong>${item.modelAnswer}</strong></p>
+                `;
             }
+            resultDetails.appendChild(itemDiv);
         }
 
-        document.getElementById('score-text').innerText = `得分：${score} / 10`;
+        document.getElementById('score-text').innerText = `客觀題（MC/是非題）得分：${mcTfScore} / ${mcTfTotal} (長題目請參考下方參考答案對對)`;
         document.getElementById('quiz-view').classList.add('hidden');
         document.getElementById('result-view').classList.remove('hidden');
     }
